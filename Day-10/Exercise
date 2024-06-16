@@ -1,0 +1,39 @@
+# i am going to wirte a script to list all files of requested folders 
+# first we have to get input from user 
+# and we have to list them so for that we are goig to use a module 
+
+import os
+
+def Error_detect(folder_name):
+    try:
+        files = os.listdir(folder_name)
+        folder_sizes = os.path.getsize(folder_name)
+        file_size = {}
+        for file in files:
+            file_path = os.path.join (folder_name, file)
+            files_size = os.path.getsize(file_path)
+            file_size[file]= files_size 
+            
+        return files,folder_sizes,file_size, None
+    except FileNotFoundError:
+        return None, None,None,  "File Not Found"
+    except ValueError:
+        return None, None, None, "Value Error"
+    except ZeroDivisionError:
+        return None, None, None, "Zero Division"
+
+def main():
+    folders_name = input("Please Enter The Folders Name With Space : ")
+    folders_split = folders_name.split()
+    
+    for folder_name in folders_split:
+        files, folder_sizes, file_size, error_ms = Error_detect(folder_name)
+        if file_size is not None:
+            print(f"\nFiles in the Folder OF :: {folder_name.upper()} :: Size Folder :: {folder_sizes} ::")
+            for file_name, size in file_size.items() :
+                print(f"{file_name} :: {size} ")
+        else:
+            print(f"Error IN {folder_name.upper()} :: {error_ms}")
+
+if __name__=="__main__":
+    main()
